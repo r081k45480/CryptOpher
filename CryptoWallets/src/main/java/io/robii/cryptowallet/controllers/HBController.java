@@ -16,7 +16,7 @@ public class HBController {
 	@GetMapping(value={"","wallethi"})
 	public String getAllUsers(){
 		String randomServerPort =environment.getProperty("local.server.port"); 
-		String map =  "<h1>Hello from CryptoWallets["+randomServerPort+"]</h1>";
+		String map =  "<h1>["+randomServerPort+"]Hello from CryptoWallets["+randomServerPort+"]</h1>";
 		return (map);
 	}
 		

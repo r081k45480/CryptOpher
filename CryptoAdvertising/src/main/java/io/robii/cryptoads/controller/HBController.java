@@ -15,7 +15,7 @@ public class HBController {
 	@GetMapping(value={"","adhi"})
 	public String getAllUsers(){
 		String randomServerPort =environment.getProperty("local.server.port"); 
-		String map =  "<h1>Hello from CryptAds ["+randomServerPort+"]</h1>";
+		String map =  "<h1>["+randomServerPort+"] Hello from CryptAds </h1>";
 		return map;
 	}
 		
