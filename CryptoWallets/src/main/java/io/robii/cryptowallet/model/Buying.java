@@ -58,27 +58,9 @@ public class Buying implements Serializable{
 		return input/price;
 	}
 
-	public void setAndCalculateAmount(double amount){
-		if(price == null || price == 0.0) return;
-		input = amount*price;
-		setAmount(amount);
-	}
-
 	public void setAmount(double amount){
 		this.amount = amount;
 	}
-	
-	public Double getCurrentCapital(){
-		return getAmount() * getCoin().getCurrentPrice();
-	}
-	
-	public Double getProfit(){
-		return getCurrentCapital() - input;
-	}
-	
-	public double getPercentualProfit(){
-    	return (getProfit()/input) * 100;
-    }
 	
 	public Coin getCoin() {
 		return coin;
@@ -124,5 +106,25 @@ public class Buying implements Serializable{
 				+ ", amount=" + amount + ", coin=" + coin + "]";
 	}
 	
+	@JsonIgnore
+	public Double getCurrentCapital(){
+		return getAmount() * getCoin().getCurrentPrice();
+	}
+
+	@JsonIgnore
+	public Double getProfit(){
+		return getCurrentCapital() - input;
+	}
+
+	@JsonIgnore
+	public double getPercentualProfit(){
+    	return (getProfit()/input) * 100;
+    }
 	
+	@JsonIgnore
+	public void setAndCalculateAmount(double amount){
+		if(price == null || price == 0.0) return;
+		input = amount*price;
+		setAmount(amount);
+	}
 }

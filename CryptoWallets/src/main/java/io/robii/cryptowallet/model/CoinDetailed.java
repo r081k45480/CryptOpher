@@ -16,6 +16,9 @@ public class CoinDetailed extends Coin implements Serializable {
 		amount = c.amount;
 		input = c.input;
 	}
+	public CoinDetailed(){
+	}
+
 
 	protected Future<SortedMap<Date, Double>> futureHistori;
 	protected SortedMap<Date, Double> histori;
@@ -40,7 +43,7 @@ public class CoinDetailed extends Coin implements Serializable {
 		return priceBefore7days;
 	}
 
-	public void setPriceBefore7days(Future<Double> fpriceBefore7days) {
+	public void setFuturePriceBefore7days(Future<Double> fpriceBefore7days) {
 		this.futurePriceBefore7days = fpriceBefore7days;
 	}
 	public void setPriceBefore7days(Double priceBefore7days) {
@@ -75,7 +78,7 @@ public class CoinDetailed extends Coin implements Serializable {
 		return histori;
 	}
 
-	public void setHistori(Future<SortedMap<Date, Double>> histori){
+	public void setFutureHistori(Future<SortedMap<Date, Double>> histori){
 		this.futureHistori = histori;
 	}
 	public void setHistori(SortedMap<Date, Double> histori) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.robii.cryptowallet.manager.CoinManager;
@@ -17,31 +18,32 @@ import io.robii.cryptowallet.model.Coin;
 import io.robii.cryptowallet.model.CoinDetailed;
 
 @RestController
+@RequestMapping("coins")
 public class CoinsController{
 
 	@Autowired
 	CoinManager coinManager;
 	
-	@GetMapping("allcoins")
+	@GetMapping("all")
 	public List<Coin> getAllCoins() {
 		List<Coin> myCoins= coinManager.getAllCoins().values().stream().collect(Collectors.toList());
 		return (myCoins);
 	}
 	
-	@GetMapping("mycoins/{symbol}")
+	@GetMapping("{symbol}")
 	public CoinDetailed getCoinDetail(@PathVariable("symbol") String symbol) {
 		CoinDetailed det = coinManager.getDetailedCoin(symbol);
 		return (det);
 	}
 
-	@GetMapping("mycoins")
+	@GetMapping()
 	public List<Coin> getMyCoins() {
 		List<Coin> myCoins = coinManager.getMyCoins();
 
 		return (myCoins);
 	}
 
-	@PutMapping("buying")
+	@PutMapping()
 	public Boolean addBuying(@RequestBody Buying buying) {
 		try {
 			coinManager.insertAll(buying);
