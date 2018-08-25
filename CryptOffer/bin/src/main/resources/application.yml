@@ -1,0 +1,16 @@
+server:
+  port: 8822
+  servlet:
+    context-path: /cryptoffer/api
+spring:
+  application:
+    name: CryptOffer
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/cryptoffer?useSSL=false
+    username: mysql
+    password: password
+  main:
+    allow-bean-definition-overriding: true
