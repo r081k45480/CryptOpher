@@ -1,4 +1,4 @@
-package io.robii.cryptoffer.model;
+package io.robii.cryptoauthservice.model;
 
 import java.util.List;
 

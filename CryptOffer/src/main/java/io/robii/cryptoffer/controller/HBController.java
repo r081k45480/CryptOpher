@@ -3,6 +3,7 @@ package io.robii.cryptoffer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +26,9 @@ public class HBController {
 	@Autowired
 	WalletHBMngr wal;
 	
-	@GetMapping()
-	public ResponseEntity<String> getAllUsers(@RequestParam(name="symbol",defaultValue="0") int times){
+	//@PreAuthorize("#auth2.hasScope('user')")
+	@GetMapping
+	public ResponseEntity<String> hello(@RequestParam(name="symbol",defaultValue="0") int times){
 		String randomServerPort =environment.getProperty("local.server.port"); 
 		//String map =  "<h1>["+randomServerPort+"]Hello from CryptOffer["+randomServerPort+"]</h1>";
 		String map =  "{ \"msg\":\""+randomServerPort+"]Hello from CryptOffer["+randomServerPort+"\"}";
@@ -35,6 +37,16 @@ public class HBController {
 			map += ad.hb() ;
 			map += wal.hb() ;
 		}
+		return ResponseEntity.ok().body(map);
+	}
+	
+
+	@GetMapping("public")
+	public ResponseEntity<String> hello(){
+		String randomServerPort =environment.getProperty("local.server.port"); 
+		//String map =  "<h1>["+randomServerPort+"]Hello from CryptOffer["+randomServerPort+"]</h1>";
+		String map =  "{ \"msg\":\"Hello from CryptOffer\"}";
+		
 		return ResponseEntity.ok().body(map);
 	}
 		
