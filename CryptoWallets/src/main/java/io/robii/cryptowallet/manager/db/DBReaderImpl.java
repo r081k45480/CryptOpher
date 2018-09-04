@@ -36,9 +36,9 @@ public class DBReaderImpl implements DBReader {
     CoinImageUrlRepository coinImageUrlRepository;
     
     @Override
-    public List<Coin> getAllMyCoins() {
+    public List<Coin> getAllMyCoins(String username) {
 
-        List<Object[]> buyings = buyingRepository.getGrouped();
+        List<Object[]> buyings = buyingRepository.getGrouped(username);
         myCoins = new ArrayList<>(buyings.size());
 
         for(Object[] b:buyings)
@@ -51,9 +51,9 @@ public class DBReaderImpl implements DBReader {
     }
 
     @Override
-    public CoinDetailed getCoin(final String symbol) {
+    public CoinDetailed getCoin(final String symbol, final String username) {
         
-        List<Object[]> summed = buyingRepository.getGroupedBySymbol(symbol);
+        List<Object[]> summed = buyingRepository.getGroupedBySymbol(symbol, username);
         Coin c = makeCoinFromBuying(summed.get(0));
         CoinDetailed cd = new CoinDetailed(c);
         
@@ -61,16 +61,16 @@ public class DBReaderImpl implements DBReader {
         cd.setName(ciu.getName());
         cd.setImageLink(ciu.getUrl());
         
-        List<Buying> buyings = buyingRepository.findBySymbol(symbol);
+        List<Buying> buyings = buyingRepository.findBySymbolAndUsername(symbol, username);
         cd.setBuyings(buyings);
 
         return cd;
     }
 
     @Override
-    public Double getSumInput() {
-        if(myCoins == null)
-            getAllMyCoins();
+    public Double getSumInput(String username) {
+        //if(myCoins == null)
+            getAllMyCoins(username);
         Double summ = 0.0;
         for(Coin c : myCoins)
             summ+=c.getInput();

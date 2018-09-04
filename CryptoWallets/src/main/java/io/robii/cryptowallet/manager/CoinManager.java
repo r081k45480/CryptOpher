@@ -22,7 +22,7 @@ public interface CoinManager {
 	public DBReader dbReader();
 	///DetailedCoinView
 	///get all to show on detail veiw
-    public CoinDetailed getDetailedCoin(String symbol);
+    public CoinDetailed getDetailedCoin(String symbol, String username);
     
     ///AddNewTrans
     // on adding new gets the historical price
@@ -33,13 +33,13 @@ public interface CoinManager {
     
     ///ListOfMyCurrencies
     //
-    public ArrayList<Coin> getMyCoins();
+    public ArrayList<Coin> getMyCoins(String username);
     
     //For summer on list
-    public Double getSumPercentualProfit();
-    public Double getSumProfit();
-    public Double getSumInput();
-    public Double getSumCurrentCapital();
+    public Double getSumPercentualProfit(String useranme);
+    public Double getSumProfit(String useranme);
+    public Double getSumInput(String useranme);
+    public Double getSumCurrentCapital(String useranme);
     
 	public void insertAll(Buying... buy) throws Exception;
 }

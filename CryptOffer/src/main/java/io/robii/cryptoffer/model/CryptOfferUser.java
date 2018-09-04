@@ -2,12 +2,12 @@ package io.robii.cryptoffer.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class CryptOfferUser {
@@ -21,7 +21,13 @@ public class CryptOfferUser {
 	
 	private String password;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToMany
+    @JoinTable( 
+        name = "users_roles", 
+        joinColumns = @JoinColumn(
+          name = "username", referencedColumnName = "username"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "role_name", referencedColumnName = "name")) 
 	private List<CORole> roles;
 	
 	public String getUsername() {

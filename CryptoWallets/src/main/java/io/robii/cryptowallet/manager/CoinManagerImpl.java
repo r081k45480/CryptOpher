@@ -51,7 +51,7 @@ public class CoinManagerImpl implements CoinManager{
     ArrayList<Coin> myCoins;
 
 	@Override
-    public CoinDetailed getDetailedCoin(final String symbol) {
+    public CoinDetailed getDetailedCoin(final String symbol, final String username) {
     	Double price = restReader.getCurrentPrice(symbol);
     			
 		Calendar c = Calendar.getInstance();
@@ -59,7 +59,7 @@ public class CoinManagerImpl implements CoinManager{
 		Date d =  c.getTime();
 		Double priceBefore7Days = restReader.getHistoricalPrice(symbol, d);
 
-    	CoinDetailed coin = dbReader.getCoin(symbol);
+    	CoinDetailed coin = dbReader.getCoin(symbol, username);
 
     	if(READ_ALL){
     		SortedMap<Date, Double> history = restReader.getPriceForLast10Days(symbol);
@@ -88,10 +88,10 @@ public class CoinManagerImpl implements CoinManager{
 
     }
 
-	private void getMyCoinsWithoutPrices(){
+	private void getMyCoinsWithoutPrices(String username){
 		this.myCoinsMap = new HashMap<>();
 		this.myCoins = new ArrayList<>();
-		final List<Coin> myCoins = dbReader.getAllMyCoins();
+		final List<Coin> myCoins = dbReader.getAllMyCoins(username);
 
 		for (Coin v : myCoins) {
 			this.myCoinsMap.put(v.getSymbol(), v);
@@ -100,9 +100,9 @@ public class CoinManagerImpl implements CoinManager{
 	}
 
 	@Override
-    public ArrayList<Coin> getMyCoins() {
+    public ArrayList<Coin> getMyCoins(final String username) {
 		//if(this.myCoins == null)
-		getMyCoinsWithoutPrices();
+		getMyCoinsWithoutPrices(username);
 
     	List<String> myCoinsSymbols = new ArrayList<>(this.myCoinsMap.keySet());
 
@@ -119,24 +119,25 @@ public class CoinManagerImpl implements CoinManager{
     }
     
 	@Override
-    public Double getSumPercentualProfit(){
-    	return (getSumProfit()/getSumInput())*100;
+    public Double getSumPercentualProfit(String username){
+    	return (getSumProfit(username)/getSumInput(username))*100;
     }
     
 	@Override
-    public Double getSumProfit(){
-    	return getSumCurrentCapital() - getSumInput();
+    public Double getSumProfit(String username){
+    	return getSumCurrentCapital(username) - getSumInput(username);
     }
     
     @Override
-    public Double getSumInput(){
-    	return dbReader.getSumInput();
+    public Double getSumInput(String username){
+    	return dbReader.getSumInput(username);
     }
     
 	@Override
-    public Double getSumCurrentCapital(){
-    	if(myCoins == null)
-    		getMyCoinsWithoutPrices();
+    public Double getSumCurrentCapital(String username){
+		
+    	//if(myCoins == null) commented... no cachin
+    		getMyCoinsWithoutPrices(username);
 
     	Double sum = 0.0;
     	for (Coin t : myCoins){
@@ -148,7 +149,9 @@ public class CoinManagerImpl implements CoinManager{
 	
 	@Override
 	public void insertAll(Buying... buy) throws Exception {
-		getMyCoinsWithoutPrices();
+		if(buy == null || buy.length == 0) return;
+		String username = buy[0].getUsername();
+		getMyCoinsWithoutPrices(username);
 		checkSell(buy);
 		
 		Arrays.asList(buy).stream()

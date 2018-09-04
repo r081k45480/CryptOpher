@@ -1,5 +1,7 @@
 package io.robii.cryptoffer.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +33,16 @@ public class AdsAndWalletController {
 	
 	@PostMapping("adsToWallet")
 	@Transactional
-	public Boolean asToWallet(@RequestBody Ad ad){
+	// this can be call only for Ad that posted buy another user
+	public Boolean asToWallet(@RequestBody Ad ad, Principal principal){
 		try{
+			String currentUser = principal.getName();
 			/// aaaaahaaaaaa
-			Buying buying = buyingManager.makeFromAd(ad);
-			
-			boolean walletOk = walletAPIManager.put(buying);
+			Buying myBuying = buyingManager.makeMeBuyingFromAd(ad, currentUser);
+			Buying buying = buyingManager.makeThemBuyingFromAd(ad);
+			boolean walletOk = walletAPIManager.put(myBuying,buying);
 			boolean adOk = adAPIManager.adDone(ad);
-		
+			ad.setDoneWithUser(currentUser);
 			boolean ok = walletOk && adOk;
 			
 			if(!ok)

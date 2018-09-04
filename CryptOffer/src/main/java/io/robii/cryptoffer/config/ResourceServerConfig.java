@@ -16,8 +16,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/**").authenticated()
-			.antMatchers("/public").permitAll();
+			//.antMatchers("/**").permitAll();
+			.antMatchers("/public").permitAll().antMatchers("/coins/all").permitAll().antMatchers("/**").authenticated();
 	}
 	
 	@Override
@@ -35,4 +35,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	    tokenService.setClientSecret("crypto-secret");
 	    return tokenService;
 	}
+	
 }
+

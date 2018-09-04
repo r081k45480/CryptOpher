@@ -19,12 +19,12 @@ public interface DBReader {
 	
 	
 	// get all coins filled with amount and input
-	List<Coin> getAllMyCoins();
+	List<Coin> getAllMyCoins(String username);
 	
 	// gett coin filled with amount and input
-	CoinDetailed getCoin(String symbol);
+	CoinDetailed getCoin(String symbol, String username);
 	
-	Double getSumInput();
+	Double getSumInput(String username);
 
 	SortedMap<String, Coin> getAllCoins();
 	

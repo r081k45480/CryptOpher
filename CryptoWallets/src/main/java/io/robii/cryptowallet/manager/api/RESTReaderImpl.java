@@ -77,6 +77,7 @@ public class RESTReaderImpl implements RESTReader{
     }
 
     public Map<String, Double> getPricesFor(List<String> symbols) {
+    	if(symbols == null || symbols.size()==0) return new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();
 
         String symbolsAsOne= "";

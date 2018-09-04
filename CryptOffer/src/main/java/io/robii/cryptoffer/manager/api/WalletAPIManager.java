@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import io.robii.cryptowallet.model.Buying;
 import io.robii.cryptowallet.model.Coin;
@@ -19,14 +20,14 @@ import io.robii.cryptowallet.model.CoinDetailed;
 public interface WalletAPIManager {
 
 	@GetMapping
-	public List<Coin> coins();
+	public List<Coin> coins(@RequestParam("username") String username);
 
 	@GetMapping("{symbol}")
-	public CoinDetailed coin(@PathVariable("symbol") String symbol);
+	public CoinDetailed coin(@PathVariable("symbol") String symbol, @RequestParam("username") String username);
 
 	@GetMapping("all")
 	public List<Coin> allcoins();
 
 	@PutMapping
-	public boolean put(Buying b);
+	public boolean put(Buying... b);
 }

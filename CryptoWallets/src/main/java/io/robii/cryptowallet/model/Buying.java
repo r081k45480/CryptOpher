@@ -21,13 +21,15 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 @Table(name = "buying")
 @NamedQueries({
 	@NamedQuery(name="Buying.getAllBySymbol", 
-			query="SELECT b FROM Buying b WHERE b.symbol = :symbol ORDER BY b.date DESC"),
+			query="SELECT b FROM Buying b WHERE b.symbol = :symbol AND b.username = :username ORDER BY b.date DESC"),
 	@NamedQuery(name="Buying.getGrouped", 
 	query="SELECT b.symbol, sum(b.input) as input, max(b.date) as date, sum(b.amount) as amount " +
-            "FROM Buying b GROUP BY b.symbol HAVING sum(b.amount) > 0"),
+            "FROM Buying b WHERE b.username = :username " +
+            "GROUP BY b.symbol HAVING sum(b.amount) > 0"),
 	@NamedQuery(name="Buying.getGroupedBySymbol", 
 	query="SELECT b.symbol, sum(b.input) as input, max(b.date) as date, sum(b.amount) as amount " +
-            "FROM Buying b GROUP BY b.symbol HAVING b.symbol = :symbol AND sum(b.amount) > 0"),
+            "FROM Buying b WHERE b.symbol = :symbol AND b.username = :username " +
+            "GROUP BY b.symbol HAVING sum(b.amount) > 0"),
 
 })
 public class Buying implements Serializable{
@@ -43,6 +45,7 @@ public class Buying implements Serializable{
 	protected Double input;
 	protected Double price;
 	protected Double amount;
+	protected String username;
 	
 	@JsonIgnore
 	@Transient
@@ -98,6 +101,13 @@ public class Buying implements Serializable{
 	}
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	@Override

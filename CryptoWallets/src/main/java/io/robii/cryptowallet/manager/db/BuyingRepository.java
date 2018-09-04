@@ -10,11 +10,11 @@ import io.robii.cryptowallet.model.Buying;
 
 public interface BuyingRepository extends JpaRepository<Buying, Long>{
 
-	public List<Buying> findBySymbol(String symbol);
+	public List<Buying> findBySymbolAndUsername(String symbol, String username);
 
 	@Query
-	public List<Object[]> getGrouped();
+	public List<Object[]> getGrouped(@Param("username") String username);
 
 	@Query
-	public List<Object[]> getGroupedBySymbol(@Param("symbol") String symbol);
+	public List<Object[]> getGroupedBySymbol(@Param("symbol") String symbol,@Param("username") String username);
 }

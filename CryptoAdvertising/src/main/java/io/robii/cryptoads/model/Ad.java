@@ -43,6 +43,7 @@ public class Ad  {
 	private boolean isBuying;
 	private Date date;
 	private Date adDone;
+	private String doneWithUser;
 
 	public Ad() {
 	}
@@ -126,6 +127,14 @@ public class Ad  {
 	}
 	public void setAdDone(Date adDone) {
 		this.adDone = adDone;
+	}
+
+	public String getDoneWithUser() {
+		return doneWithUser;
+	}
+
+	public void setDoneWithUser(String doneWithUser) {
+		this.doneWithUser = doneWithUser;
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.robii.cryptowallet.manager.CoinManager;
@@ -32,21 +33,21 @@ public class CoinsController{
 	}
 	
 	@GetMapping("{symbol}")
-	public CoinDetailed getCoinDetail(@PathVariable("symbol") String symbol) {
-		CoinDetailed det = coinManager.getDetailedCoin(symbol);
+	public CoinDetailed getCoinDetail(@PathVariable("symbol") String symbol, @RequestParam String username) {
+		CoinDetailed det = coinManager.getDetailedCoin(symbol, username);
 		return (det);
 	}
 
 	@GetMapping
-	public List<Coin> getMyCoins() {
-		List<Coin> myCoins = coinManager.getMyCoins();
+	public List<Coin> getMyCoins(@RequestParam String username) {
+		List<Coin> myCoins = coinManager.getMyCoins(username);
 
 		return (myCoins);
 	}
 
 	@PutMapping
 	@Transactional
-	public Boolean addBuying(@RequestBody Buying buying) {
+	public Boolean addBuying(@RequestBody Buying... buying) {
 		try {
 			coinManager.insertAll(buying);
 			return (true);

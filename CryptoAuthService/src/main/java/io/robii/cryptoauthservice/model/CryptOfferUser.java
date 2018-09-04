@@ -2,12 +2,16 @@ package io.robii.cryptoauthservice.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class CryptOfferUser {
@@ -19,11 +23,31 @@ public class CryptOfferUser {
 	private String mail;
 	private String name;
 	
+	@JsonIgnore
 	private String password;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable( 
+        name = "users_roles", 
+        joinColumns = @JoinColumn(
+          name = "username", referencedColumnName = "username"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "role_name", referencedColumnName = "name")) 
 	private List<CORole> roles;
 	
+	
+	
+	public CryptOfferUser() {
+		super();
+	}
+	public CryptOfferUser(String username, String mail, String name, String password, List<CORole> roles) {
+		super();
+		this.username = username;
+		this.mail = mail;
+		this.name = name;
+		this.password = password;
+		this.roles = roles;
+	}
 	public String getUsername() {
 		return username;
 	}
