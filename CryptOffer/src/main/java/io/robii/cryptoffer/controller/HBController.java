@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.robii.cryptoffer.manager.api.AdHBMngr;
 import io.robii.cryptoffer.manager.api.WalletHBMngr;
 
-@Controller
+@RestController
 @RequestMapping
 @CrossOrigin
 public class HBController {
@@ -27,7 +28,7 @@ public class HBController {
 	WalletHBMngr wal;
 	
 	//@PreAuthorize("#auth2.hasScope('user')")
-	@GetMapping
+	@GetMapping("public/more")
 	public ResponseEntity<String> hello(@RequestParam(name="symbol",defaultValue="0") int times){
 		String randomServerPort =environment.getProperty("local.server.port"); 
 		//String map =  "<h1>["+randomServerPort+"]Hello from CryptOffer["+randomServerPort+"]</h1>";
@@ -42,12 +43,8 @@ public class HBController {
 	
 
 	@GetMapping("public")
-	public ResponseEntity<String> hello(){
-		String randomServerPort =environment.getProperty("local.server.port"); 
-		//String map =  "<h1>["+randomServerPort+"]Hello from CryptOffer["+randomServerPort+"]</h1>";
-		String map =  "{ \"msg\":\"Hello from CryptOffer\"}";
-		
-		return ResponseEntity.ok().body(map);
+	public String hello(){
+		return   "{ \"msg\":\"Hello from CryptOffer\"}";
 	}
 		
 }
