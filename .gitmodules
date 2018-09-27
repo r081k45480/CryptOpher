@@ -1,0 +1,3 @@
+[submodule "CryptOfferAngular"]
+	path = CryptOfferAngular
+	url = https://github.com/robertsabo0/CryptOffer_Client.git
